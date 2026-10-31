@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(MainApp());
-}
-
-class MainApp extends StatelessWidget {
-  MainApp({super.key});
+class ProfilePage extends StatelessWidget {
+  ProfilePage({super.key});
 
   final String userName = "Maulana Khadafi";
   final String role = "Mahasiswa Teknik Informatika";
@@ -17,64 +13,85 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: "Profile Section",
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blueAccent),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("User Profile"),
+        centerTitle: true,
+        backgroundColor: Colors.blueAccent,
+        foregroundColor: Colors.white,
       ),
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text("User Profile"),
-          centerTitle: true,
-          backgroundColor: Colors.blueAccent,
-          foregroundColor: Colors.white,
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            const ProfileAvatar(),
+            
+            const SizedBox(height: 16),
+            
+            ProfileInfo(userName: userName, role: role),
+            
+            const SizedBox(height: 24),
+            ElevatedButton.icon(
+              onPressed: () {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text("Fitur Edit belum tersedia saat ini."),
+                  ),
+                );
+              },
+              icon: const Icon(Icons.edit),
+              label: const Text("Edit Profile"),
+            ),
+            const SizedBox(height: 24),
+          ],
         ),
-        body: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            children: [
-              const CircleAvatar(
-                radius: 50,
-                backgroundColor: Colors.grey,
-                child: Icon(Icons.person, size: 50, color: Colors.white),
-              ),
-              const SizedBox(width: 16),
-              Column(
-                children: [
-                  Text(
-                    userName,
-                    style: const TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    role,
-                    style: TextStyle(fontSize: 16, color: Colors.grey[700]),
-                    textAlign: TextAlign.center,
-                  ),
-                ],
-              ),
-              const SizedBox(height: 24),
-              ElevatedButton.icon(
-                onPressed: () {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text("Fitur Edit belum tersedia saat ini."),
-                    ),
-                  );
-                },
-                icon: const Icon(Icons.edit),
-                label: const Text("Edit Profile"),
-              ),
-              const SizedBox(height: 24),
-            ],
+      ),
+    );
+  }
+}
+
+class ProfileAvatar extends StatelessWidget {
+  const ProfileAvatar({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const CircleAvatar(
+      radius: 50,
+      backgroundColor: Colors.grey,
+      child: Icon(Icons.person, size: 50, color: Colors.white),
+    );
+  }
+}
+
+class ProfileInfo extends StatelessWidget {
+  final String userName;
+  final String role;
+
+  const ProfileInfo({
+    super.key,
+    required this.userName,
+    required this.role,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Text(
+          userName,
+          style: const TextStyle(
+            fontSize: 22,
+            fontWeight: FontWeight.bold,
           ),
+          textAlign: TextAlign.center,
         ),
-      ),
+        const SizedBox(height: 8),
+        Text(
+          role,
+          style: TextStyle(fontSize: 16, color: Colors.grey[700]),
+          textAlign: TextAlign.center,
+        ),
+      ],
     );
   }
 }
