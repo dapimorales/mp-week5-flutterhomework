@@ -21,24 +21,33 @@ class ProfilePage extends StatelessWidget {
         foregroundColor: Colors.white,
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 16.0),
         child: Column(
           children: [
             const ProfileAvatar(),
             const SizedBox(height: 16),
             ProfileInfo(userName: userName, role: role),
-            const SizedBox(height: 24),
+            const SizedBox(height: 20),
+        
             ElevatedButton.icon(
+              style: ElevatedButton.styleFrom(
+                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              ),
               onPressed: () {
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(
-                    content: Text("Fitur Edit belum tersedia saat ini."),
+                    content: Text("Fitur Edit belum aktif pada modul statis."),
+                    duration: Duration(seconds: 2),
                   ),
                 );
               },
               icon: const Icon(Icons.edit),
               label: const Text("Edit Profile"),
             ),
+            
             const SizedBox(height: 24),
             const ProfileStats(),
             const SizedBox(height: 24),
@@ -50,7 +59,9 @@ class ProfilePage extends StatelessWidget {
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
             ),
+            const SizedBox(height: 8),
             const Divider(),
+            
             Expanded(
               child: ListView.builder(
                 itemCount: experiences.length,
@@ -59,7 +70,6 @@ class ProfilePage extends StatelessWidget {
                 },
               ),
             ),
-            
           ],
         ),
       ),
@@ -71,7 +81,11 @@ class ProfileAvatar extends StatelessWidget {
   const ProfileAvatar({super.key});
   @override
   Widget build(BuildContext context) {
-    return const CircleAvatar(radius: 50, backgroundColor: Colors.grey, child: Icon(Icons.person, size: 50, color: Colors.white));
+    return const CircleAvatar(
+      radius: 50,
+      backgroundColor: Colors.grey,
+      child: Icon(Icons.person, size: 50, color: Colors.white),
+    );
   }
 }
 
@@ -84,7 +98,7 @@ class ProfileInfo extends StatelessWidget {
     return Column(
       children: [
         Text(userName, style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold), textAlign: TextAlign.center),
-        const SizedBox(height: 8),
+        const SizedBox(height: 6),
         Text(role, style: TextStyle(fontSize: 16, color: Colors.grey[700]), textAlign: TextAlign.center),
       ],
     );
@@ -96,7 +110,7 @@ class ProfileStats extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 12),
+      padding: const EdgeInsets.symmetric(vertical: 14),
       decoration: BoxDecoration(color: Colors.blue[50], borderRadius: BorderRadius.circular(12)),
       child: const Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -130,12 +144,7 @@ class StatItem extends StatelessWidget {
 
 class ExperienceCard extends StatelessWidget {
   final String experience;
-
-  const ExperienceCard({
-    super.key,
-    required this.experience,
-  });
-
+  const ExperienceCard({super.key, required this.experience});
   @override
   Widget build(BuildContext context) {
     return Card(
