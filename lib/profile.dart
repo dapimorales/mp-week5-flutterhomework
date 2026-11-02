@@ -1,15 +1,59 @@
 import 'package:flutter/material.dart';
 
-class ProfilePage extends StatelessWidget {
-  ProfilePage({super.key});
+class ProfilePage extends StatefulWidget {
+  const ProfilePage({super.key});
 
-  final String userName = "Maulana Khadafi";
+  @override
+  State<ProfilePage> createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
+  String userName = "Maulana Khadafi";
   final String role = "Mahasiswa Teknik Informatika";
 
   final List<String> experiences = [
     "Frontend Developer - Makanda",
     "Frontend Developer - Website Laundry Laravel",
   ];
+
+  void _showEditDialog() {
+    TextEditingController nameController = TextEditingController(text: userName);
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text("Edit Nama Profil"),
+          content: TextFormField(
+            controller: nameController,
+            decoration: const InputDecoration(
+              labelText: "Nama Lengkap",
+              border: OutlineInputBorder(),
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text("Batal"),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                setState(() {
+                  userName = nameController.text;
+                });
+                Navigator.pop(context);
+                
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text("Profil berhasil diperbarui!")),
+                );
+              },
+              child: const Text("Simpan"),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +72,7 @@ class ProfilePage extends StatelessWidget {
             const SizedBox(height: 16),
             ProfileInfo(userName: userName, role: role),
             const SizedBox(height: 20),
-        
+            
             ElevatedButton.icon(
               style: ElevatedButton.styleFrom(
                 padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
@@ -36,14 +80,7 @@ class ProfilePage extends StatelessWidget {
                   borderRadius: BorderRadius.circular(8),
                 ),
               ),
-              onPressed: () {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text("Fitur Edit belum aktif pada modul statis."),
-                    duration: Duration(seconds: 2),
-                  ),
-                );
-              },
+              onPressed: _showEditDialog,
               icon: const Icon(Icons.edit),
               label: const Text("Edit Profile"),
             ),
